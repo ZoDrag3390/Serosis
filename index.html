@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ t('dashboard_title') }}</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <!-- Language Switcher -->
+  <div class="language-switcher">
+    <select id="languageSelect" onchange="changeLanguage(this.value)">
+      {% for lang_code, lang_info in languages.items() %}
+      <option value="{{ lang_code }}" {% if current_language == lang_code %}selected{% endif %}>
+        {{ lang_info.name }}
+      </option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <!-- Loading Screen -->
+  <div id="loading-screen">
+    <div class="loader-content">
+      <img src="/static/logo.png" alt="SEROSIS Logo" class="loader-logo">
+      <p class="loader-text" id="loadingText">{{ t('loading') }}</p>
+      <div class="loader-spinner"></div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="topbar">
+    <button id="menuBtn" class="menu-btn">☰</button>
+    <div class="logo-container">
+      <div class="logo-row">
+        <h1 class="welcome-text" id="welcomeText">{{ t('welcome') }}</h1>
+        <img src="/static/logo.png" alt="SEROSIS Logo" class="logo-img" />
+      </div>
+      <div class="double-line"></div>
+    </div>
+  </header>
+
+  <!-- Crop Banner -->
+  <div class="crop-banner">
+    <div class="current-crop">
+      <span class="crop-label" id="monitoringLabel">{{ t('monitoring_for') }}:</span>
+      <span class="crop-name">{{ selected_crop }}</span>
+      <span class="crop-details-text">({{ crop_water_req }} {{ t('water') }} • {{ crop_season }})</span>
+    </div>
+    <a href="/crops" class="change-crop-btn" id="changeCropBtn">{{ t('change_crop') }}</a>
+  </div>
+
+  <!-- Weather Banner -->
+  <div class="weather-banner" id="weatherBanner">
+    <div class="weather-current">
+        <span class="weather-icon" id="weatherIcon">⛅</span>
+        <span class="weather-temp" id="weatherTemp">28°C</span>
+        <span class="weather-desc" id="weatherDesc">{{ t('partly_cloudy') }}</span>
+    </div>
+    <div class="weather-alert" id="weatherAlert">
+        <span class="alert-icon">⚠️</span>
+        <span class="alert-text" id="alertText">{{ t('heavy_rain') }}</span>
+    </div>
+  </div>
+
+  <!-- Multi-Sensor Dashboard -->
+  <main class="container">
+    <div class="sensors-header">
+      <h2 id="sensorsHeader">{{ t('field_sensors') }} ({{ sensors_count }} {{ t('active') }})</h2>
+    </div>
+    
+    <div id="sensors-container">
+      <div class="sensor-loading">{{ t('loading') }}</div>
+    </div>
+  </main>
+
+  <!-- Side Menu -->
+  <nav id="sideMenu" class="side-menu">
+    <div class="side-inner">
+      <a href="/about">{{ t('about') }}</a>
+      <a href="/crops">{{ t('select_crop') }}</a>
+      <a href="/contact">{{ t('contact') }}</a>
+      <a href="/guide">{{ t('guide') }}</a>
+      <a href="/analytics">{{ t('analytics') }}</a>
+    </div>
+  </nav>
+  <div id="overlay" class="overlay"></div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
